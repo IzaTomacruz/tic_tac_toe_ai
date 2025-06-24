@@ -1,12 +1,15 @@
-width = 600
-height = 600
+class Constants:
+    def __init__(self):
 
-rows = 3
-columms = 3
+        self.width = 600
+        self.height = 600
 
-square_size = width // columms
-line_width = 15
+        self.rows = 3
+        self.columns = 3
 
-#Colors
-background = (255, 51, 153)
-line_color = (204, 0, 102)
+        self.square_size = self.width // self.columns
+        self.line_width = 15
+
+        #Colors
+        self.background = (255, 51, 153)
+        self.line_color = (204, 0, 102)
