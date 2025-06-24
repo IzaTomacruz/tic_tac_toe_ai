@@ -1,7 +1,7 @@
 import sys
 import pygame
-import numpy as numpy
 from constants import Constants
+from board import Board
 
 class FullGame(Constants):
     def __init__(self):
@@ -34,17 +34,6 @@ class FullGame(Constants):
                         print(board.squares)
 
             pygame.display.update()
-
-class Board(Constants):
-    def __init__(self):
-        super().__init__()
-        self.squares = numpy.zeros((self.rows, self.columns))
-
-    def mark_squares(self, row, column, player):
-        self.squares[row][column] = player
-
-    def empty_squares(self, row, column):
-        return self.squares[row][column] == 0
 
 class Game(Constants):
     def __init__(self, screen):
@@ -83,7 +72,8 @@ class Game(Constants):
             pygame.draw.line(self.screen, self.cross_color, start_desc, end_desc, self.cross_width)
 
         elif self.player == 2:
-            center = (column * self.square_size + self.square_size // 2, row * self.square_size + self.square_size // 2)
+            center = (column * self.square_size + self.square_size // 2,
+                      row * self.square_size + self.square_size // 2)
             pygame.draw.circle(self.screen, self.circle_color, center, self.radius, self.circle_width)
 
     def next_turn(self):
