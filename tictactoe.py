@@ -2,6 +2,7 @@ import sys
 import pygame
 from constants import Constants
 from board import Board
+from the_ai import AI
 
 class FullGame(Constants):
     def __init__(self):
@@ -15,6 +16,7 @@ class FullGame(Constants):
 
     def loop(self):
         board = self.game.board
+        ai = self.game.ai
 
         while True:
             for event in pygame.event.get():
@@ -33,14 +35,25 @@ class FullGame(Constants):
                         self.game.draw_figure(row, column)
                         print(board.squares)
 
+            if self.game.game_mode == 'ai' and self.game.player == ai.player:
+                pygame.display.update()
+
+                row, column = ai.evaluation(board)
+                board.mark_squares(row, column, self.game.player)
+                self.game.next_turn()
+                self.game.draw_figure(row, column)
+
             pygame.display.update()
 
 class Game(Constants):
     def __init__(self, screen):
         super().__init__()
         self.screen = screen
+        self.ai = AI()
         self.board = Board()
         self.player = 1
+        self.game_mode = 'ai'
+        self.running = True
         self.show_lines()
 
     def show_lines(self):

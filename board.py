@@ -5,21 +5,21 @@ class Board(Constants):
     def __init__(self):
         super().__init__()
         self.squares = numpy.zeros((self.rows, self.columns))
-        self.empty_square = self.squares
         self.marked_squares = 0
 
     def final_state(self):
-        for column in range(self.columns):
+        #vertical win
+        for column in range(self.columns): 
             if self.squares[0][column] == self.squares[1][column] == self.squares[2][column] != 0:
                 return self.squares[0][column]
-
-        for row in range(self.rows):
+        #horizontal win
+        for row in range(self.rows): 
             if self.squares[row][0] == self.squares[row][1] == self.squares[row][2] != 0:
                 return self.squares[row][0]
-
+        #descending diagonal win
         if self.squares[0][0] == self.squares[1][1] == self.squares[2][2] != 0:
             return self.squares[1][1]
-        
+        #ascending diagonal win
         if self.squares[2][0] == self.squares[1][1] == self.squares[0][2] != 0:
             return self.squares[1][1]
         
@@ -36,7 +36,7 @@ class Board(Constants):
         empty_square = []
         for row in range(self.rows):
             for column in range(self.columns):
-                if self.empty_square(row, column):
+                if self.empty_squares(row, column):
                     empty_square.append((row, column))
 
         return empty_square
@@ -45,4 +45,4 @@ class Board(Constants):
         return self.marked_squares == 9
     
     def is_empty(self):
-        return self.mark_squares == 0
+        return self.marked_squares == 0
