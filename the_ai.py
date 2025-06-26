@@ -14,7 +14,7 @@ class AI:
         
         return empty_square[index]
     
-    def minimax(self, board, maximizing):
+    def minimax(self, board, maximizing, player):
         #terminal case
         case = board.final_state()
         
@@ -37,8 +37,8 @@ class AI:
 
             for (row, column) in empty_square:
                 temp_board = copy.deepcopy(board)
-                temp_board.mark_squares(row, column, self.player)
-                eval = self.minimax(temp_board, False)[0]
+                temp_board.mark_squares(row, column, player)
+                eval = self.minimax(temp_board, False, 2 if player == 1 else 1)[0]
                 if eval > max_eval:
                     max_eval = eval
                     best_move = (row, column)
@@ -52,8 +52,8 @@ class AI:
 
             for (row, column) in empty_square:
                 temp_board = copy.deepcopy(board)
-                temp_board.mark_squares(row, column, self.player)
-                eval = self.minimax(temp_board, True)[0]
+                temp_board.mark_squares(row, column, player)
+                eval = self.minimax(temp_board, True, 2 if player == 1 else 1)[0]
                 if eval < min_eval:
                     min_eval = eval
                     best_move = (row, column)
@@ -65,7 +65,7 @@ class AI:
             eval = 'random'
             move = self.rnd(main_board)
         else: #minimax algorithm choice
-            eval, move = self.minimax(main_board, False)
+            eval, move = self.minimax(main_board, False, self.player)
 
         print(f'AI has chosen to move in {move}, with an evaluation of: {eval}')
             

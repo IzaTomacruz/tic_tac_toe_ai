@@ -24,20 +24,49 @@ class FullGame(Constants):
                     pygame.quit()
                     sys.exit()
 
+                if event.type == pygame.KEYDOWN:
+
+                    #press g to change gamemode
+                    if event.key == pygame.K_g:
+                        self.game.change_game_mode()
+                        print(f"changed to {self.game.game_mode}")
+
+                    #press r to reset the game
+                    if event.key == pygame.K_r:
+                        self.game.reset()
+                        board = self.game.board
+                        ai = self.game.ai
+
+                    #press 0 change level to random ai
+                    if event.key == pygame.K_0:
+                        ai.level = 0
+                        print("changed to level 0")
+
+                    #press 1 change level to unbeatable ai
+                    if event.key == pygame.K_1:
+                        ai.level = 1
+                        print("changed to level 1")
+
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     position = event.pos
                     row = position[1] // self.square_size
                     column = position[0] // self.square_size
 
-                    if board.empty_squares(row, column):
+                    if board.empty_squares(row, column) and self.game.running:
                         self.game.make_move(row, column)
                         print(board.squares)
 
-            if self.game.game_mode == 'ai' and self.game.player == ai.player:
+                        if self.game.is_over():
+                            self.game.running = False
+
+            if self.game.game_mode == 'ai' and self.game.player == ai.player and self.game.running:
                 pygame.display.update()
 
                 row, column = ai.evaluation(board)
                 self.game.make_move(row, column)
+
+                if self.game.is_over():
+                    self.game.running = False
 
             pygame.display.update()
 
@@ -58,6 +87,7 @@ class Game(Constants):
         self.next_turn()            
 
     def show_lines(self):
+        self.screen.fill(self.background)
         #For vertical
         pygame.draw.line(self.screen, self.line_color, (self.square_size, 0),
                          (self.square_size, self.height), self.line_width)
@@ -92,5 +122,17 @@ class Game(Constants):
 
     def next_turn(self):
         self.player = self.player % 2 + 1
+
+    def change_game_mode(self):
+        if self.game_mode == 'pvp':
+            self.game_mode = 'ai'
+        else:
+            self.game_mode = 'pvp'
+
+    def reset(self):
+        self.__init__(self.screen)
+
+    def is_over(self):
+        return self.board.final_state() != 0 or self.board.is_full()
 
 
