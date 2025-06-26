@@ -54,9 +54,12 @@ class FullGame(Constants):
 
                     if board.empty_squares(row, column) and self.game.running:
                         self.game.make_move(row, column)
-                        print(board.squares)
-
-                        if self.game.is_over():
+                        winner = board.final_state()
+                        if winner != 0:
+                            print(f"Player {int(winner)} wins!")
+                            self.game.running = False
+                        elif board.is_full():
+                            print("It's a draw!")
                             self.game.running = False
 
             if self.game.game_mode == 'ai' and self.game.player == ai.player and self.game.running:
@@ -65,7 +68,12 @@ class FullGame(Constants):
                 row, column = ai.evaluation(board)
                 self.game.make_move(row, column)
 
-                if self.game.is_over():
+                winner = board.final_state()
+                if winner != 0:
+                    print(f"Player {int(winner)} wins!")
+                    self.game.running = False
+                elif board.is_full():
+                    print("It's a draw!")
                     self.game.running = False
 
             pygame.display.update()
@@ -83,7 +91,7 @@ class Game(Constants):
 
     def make_move(self, row, column):
         self.board.mark_squares(row, column, self.player)  
-        self.draw_figure(row, column)                      
+        self.draw_figure(row, column)                     
         self.next_turn()            
 
     def show_lines(self):
