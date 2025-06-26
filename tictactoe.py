@@ -30,18 +30,14 @@ class FullGame(Constants):
                     column = position[0] // self.square_size
 
                     if board.empty_squares(row, column):
-                        board.mark_squares(row, column, self.game.player)
-                        self.game.next_turn()
-                        self.game.draw_figure(row, column)
+                        self.game.make_move(row, column)
                         print(board.squares)
 
             if self.game.game_mode == 'ai' and self.game.player == ai.player:
                 pygame.display.update()
 
                 row, column = ai.evaluation(board)
-                board.mark_squares(row, column, self.game.player)
-                self.game.next_turn()
-                self.game.draw_figure(row, column)
+                self.game.make_move(row, column)
 
             pygame.display.update()
 
@@ -55,6 +51,11 @@ class Game(Constants):
         self.game_mode = 'ai'
         self.running = True
         self.show_lines()
+
+    def make_move(self, row, column):
+        self.board.mark_squares(row, column, self.player)  
+        self.draw_figure(row, column)                      
+        self.next_turn()            
 
     def show_lines(self):
         #For vertical
