@@ -17,6 +17,7 @@ class FullGame(Constants):
     def loop(self):
         board = self.game.board
         ai = self.game.ai
+        self.game.print_welcome()
 
         while True:
             for event in pygame.event.get():
@@ -36,6 +37,7 @@ class FullGame(Constants):
                         self.game.reset()
                         board = self.game.board
                         ai = self.game.ai
+                        self.game.print_welcome()
 
                     #press 0 change level to random ai
                     if event.key == pygame.K_0:
@@ -142,5 +144,28 @@ class Game(Constants):
 
     def is_over(self):
         return self.board.final_state() != 0 or self.board.is_full()
+    
+    def print_welcome(self):
+        print("===================================")
+        print("Welcome to TIC-TAC-TOE!")
+        print("===================================")
+        print("Game Modes:")
+        print("PvP: Player vs Player")
+        print("AI : Player vs Computer")
+        print("-----------------------------------")
+        print("Press G to toggle game mode")
+        print("Press R to restart the game")
+        print("Press 0 or 1 to change AI difficulty")
+        print("   0 - Easy (Random)")
+        print("   1 - Hard (Unbeatable)")
+        print("-----------------------------------")
+        if self.game_mode == 'ai':
+            print("You are Player 1(X)")
+            print("AI is Player 2(O)")
+        else:
+            print("Player 1(X) goes first.")
+            print("Player 2(O) goes next.")
+        print("===================================")
+
 
 
