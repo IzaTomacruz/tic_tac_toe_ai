@@ -33,19 +33,19 @@ class FullGame(Constants):
                         print(f"changed to {self.game.game_mode}")
 
                     #press r to reset the game
-                    if event.key == pygame.K_r:
+                    elif event.key == pygame.K_r:
                         self.game.reset()
                         board = self.game.board
                         ai = self.game.ai
                         self.game.print_welcome()
 
                     #press 0 change level to random ai
-                    if event.key == pygame.K_0:
+                    elif event.key == pygame.K_0:
                         ai.level = 0
                         print("changed to level 0")
 
                     #press 1 change level to unbeatable ai
-                    if event.key == pygame.K_1:
+                    elif event.key == pygame.K_1:
                         ai.level = 1
                         print("changed to level 1")
 
